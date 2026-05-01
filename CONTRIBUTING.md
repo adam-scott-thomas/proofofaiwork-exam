@@ -9,7 +9,15 @@ external contributions. After that, the rules below apply.
 npm install
 cp .env.example .env.local       # edit VITE_API_BASE_URL etc.
 npm run dev                      # http://localhost:5173
-npm run lint && npm run typecheck && npm test && npm run build
+
+# Pre-PR sweep — lint + typecheck + vitest + contract drift:
+BACKEND_REPO_PATH=/abs/path/to/ProofOfAIWork npm run check:all
+
+# Or individually:
+npm run lint
+npm run typecheck
+npm test
+npm run build
 ```
 
 ## Branch and commit conventions
