@@ -1,0 +1,49 @@
+version: 2
+
+updates:
+  # npm: keep deps current. CI (lint/typecheck/test/build) gates the PRs,
+  # so a Dependabot bump that breaks signature verification or the canonical
+  # regression test won't merge.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    labels:
+      - "dependencies"
+      - "frontend"
+    groups:
+      # Group production dep bumps together so we don't get 10 PRs the
+      # same morning.
+      prod-deps:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      # Likewise for dev deps; majors stay separate so we review them.
+      dev-deps:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Pin major versions of cryptographic primitives — bumps require
+      # explicit review against the Python signer's matching version.
+      - dependency-name: "@stablelib/ed25519"
+        update-types:
+          - "version-update:semver-major"
+
+  # Keep the GitHub Actions in cloudflare-pages.yml current.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "06:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+      - "ci"
