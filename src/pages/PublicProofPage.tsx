@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { CopyButton } from "@/components/CopyButton";
 import { Footer } from "@/components/Footer";
 import { ApiError, getProof } from "@/lib/api";
 import { formatIssuedAt } from "@/lib/format";
@@ -129,6 +130,21 @@ export function PublicProofPage() {
           <p>Percentile: {payload.scores.percentile}</p>
         )}
         <Dimensions dims={payload.scores.dimensions} />
+      </section>
+
+      <section className="proof-share">
+        <h3>Share this proof</h3>
+        <p className="muted small">
+          Anyone with this link can verify the signature offline.
+        </p>
+        <div className="share-row">
+          <code className="share-url">{window.location.href}</code>
+          <CopyButton
+            value={window.location.href}
+            label="Copy link"
+            className="share-copy"
+          />
+        </div>
       </section>
 
       <section>
