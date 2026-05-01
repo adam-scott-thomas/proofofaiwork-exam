@@ -20,6 +20,7 @@ jobs:
       VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
       VITE_WS_BASE_URL: ${{ vars.VITE_WS_BASE_URL }}
       VITE_AUTH_ORIGIN: ${{ vars.VITE_AUTH_ORIGIN }}
+      VITE_PROOF_PUBLIC_KEY: ${{ vars.VITE_PROOF_PUBLIC_KEY }}
       VITE_FEATURE_VERIFIED_ENABLED: ${{ vars.VITE_FEATURE_VERIFIED_ENABLED || 'false' }}
       VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
     steps:
@@ -35,6 +36,12 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Test
+        # vitest covers the canonical + verify regression guard. Cross-language
+        # signature drift in src/lib/canonical.ts would silently break every
+        # signed proof — fail the build before that gets near production.
+        run: npm test
 
       - name: Build
         run: npm run build
