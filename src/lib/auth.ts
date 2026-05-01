@@ -103,7 +103,7 @@ export async function requestTokenViaIframeHandoff(opts: {
       window.removeEventListener("message", onMessage);
       setToken(ev.data.token, ev.data.expires_at);
       try {
-        popup.close();
+        popup?.close();
       } catch {
         /* popup may already be closed */
       }
