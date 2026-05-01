@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 
 import { Footer } from "@/components/Footer";
 import { env } from "@/lib/env";
+import { formatIssuedAt } from "@/lib/format";
 import { useDocumentTitle } from "@/lib/useDocumentTitle";
 import {
   reasonLabel,
@@ -141,7 +142,15 @@ export function PublicProofPage() {
             <li>Canonical hash: <code className="hash">
               {verify?.canonicalHash ?? envelope.canonical_hash}
             </code></li>
-            <li>Issued: {payload.issued_at}</li>
+            <li>
+              Issued:{" "}
+              <time
+                dateTime={formatIssuedAt(payload.issued_at).machine}
+                title={formatIssuedAt(payload.issued_at).machine}
+              >
+                {formatIssuedAt(payload.issued_at).display}
+              </time>
+            </li>
           </ul>
         </details>
       </section>
