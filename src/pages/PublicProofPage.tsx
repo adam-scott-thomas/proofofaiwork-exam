@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { Footer } from "@/components/Footer";
 import { env } from "@/lib/env";
 import {
   reasonLabel,
@@ -212,7 +213,12 @@ function Dimensions({ dims }: { dims: Record<string, number> }) {
 
 
 function Page({ children }: { children: React.ReactNode }) {
-  return <main className="public-proof">{children}</main>;
+  return (
+    <>
+      <main className="public-proof">{children}</main>
+      <Footer />
+    </>
+  );
 }
 
 

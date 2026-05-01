@@ -622,3 +622,66 @@ p {
   border-radius: 0 var(--radius-2, 0.5rem) var(--radius-2, 0.5rem) 0;
   margin: var(--space-4) 0;
 }
+
+
+/* ============================== footer ==================================== */
+
+.site-footer {
+  margin-top: var(--space-8, 4rem);
+  padding: var(--space-6) var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--color-fg, #000) 12%, transparent);
+  background: color-mix(in srgb, var(--color-surface, #fff) 96%, var(--color-fg, #000));
+}
+
+.footer-grid {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 40rem) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.site-footer h3 {
+  font-size: var(--font-size-1, 0.875rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-fg-muted, #525252);
+  margin: 0 0 var(--space-2);
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  max-width: 64rem;
+  margin: var(--space-5) auto 0;
+  padding-top: var(--space-3);
+  border-top: 1px dashed color-mix(in srgb, var(--color-fg, #000) 8%, transparent);
+}
+
+.not-found {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+}

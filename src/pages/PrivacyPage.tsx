@@ -15,10 +15,12 @@
  * short of legal claims and instead points to the contact route.
  */
 import { Link } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 
 
 export function PrivacyPage() {
   return (
+    <>
     <main className="legal-page stack-6">
       <header>
         <h1>Privacy &amp; Consent</h1>
@@ -384,5 +386,7 @@ export function PrivacyPage() {
         </p>
       </section>
     </main>
+    <Footer />
+    </>
   );
 }

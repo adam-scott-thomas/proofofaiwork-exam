@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 import { getWorkbenchHealth, ApiError } from "@/lib/api";
 import type { WorkbenchHealthOut } from "@/types/api";
 
@@ -30,6 +31,7 @@ export function LandingPage() {
   }, []);
 
   return (
+    <>
     <main className="stack-6">
       <section>
         <h1>PoAW Exam</h1>
@@ -80,5 +82,7 @@ export function LandingPage() {
         )}
       </section>
     </main>
+    <Footer />
+    </>
   );
 }

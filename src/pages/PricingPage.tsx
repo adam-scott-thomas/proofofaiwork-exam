@@ -9,10 +9,12 @@
  * (per plan §J Week 8, Track 2). Until then it's a teaser.
  */
 import { Link } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 
 
 export function PricingPage() {
   return (
+    <>
     <main className="pricing-page stack-6">
       <header>
         <h1>Pricing</h1>
@@ -83,6 +85,8 @@ export function PricingPage() {
         </details>
       </section>
     </main>
+    <Footer />
+    </>
   );
 }
 

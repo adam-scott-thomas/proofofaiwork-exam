@@ -8,6 +8,7 @@
  */
 import { useCallback, useState } from "react";
 
+import { Footer } from "@/components/Footer";
 import {
   reasonLabel,
   verifyProof,
@@ -48,6 +49,7 @@ export function VerifyPage() {
   }, []);
 
   return (
+    <>
     <main className="verify-page">
       <h1>Verify a PoAW Exam proof</h1>
       <p className="muted">
@@ -93,6 +95,8 @@ export function VerifyPage() {
         <ResultBlock outcome={outcome} />
       )}
     </main>
+    <Footer />
+    </>
   );
 }
 
