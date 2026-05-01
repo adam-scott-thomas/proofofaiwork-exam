@@ -1,0 +1,2 @@
+# SPA fallback so client-side routes resolve on direct page loads.
+/*  /index.html  200

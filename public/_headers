@@ -1,0 +1,21 @@
+# Cloudflare Pages headers config.
+# https://developers.cloudflare.com/pages/configuration/headers/
+#
+# Notes:
+#   - CSP is intentionally tight. The two connect-src origins are the API and
+#     auth host. Add Sentry/analytics origins here if/when wired up.
+#   - frame-ancestors 'none': we are not embedded anywhere.
+#   - Adjust connect-src for staging/prod environments via Pages env-specific
+#     headers if needed; for v1 the same policy works for all.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(self), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://proofofaiwork.com https://*.proofofaiwork.com wss://proofofaiwork.com wss://*.proofofaiwork.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+# Hash long-term cacheable assets aggressively.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
