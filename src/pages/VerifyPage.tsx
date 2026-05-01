@@ -60,7 +60,9 @@ export function VerifyPage() {
         key baked into this page. No network calls.
       </p>
 
+      <label htmlFor="proof-json">Proof JSON</label>
       <textarea
+        id="proof-json"
         className="proof-input"
         placeholder='{"proof_id":"...","public_payload":{...},"signature_b64":"..."}'
         value={text}
@@ -69,7 +71,11 @@ export function VerifyPage() {
         onDragOver={(e) => e.preventDefault()}
         spellCheck={false}
         rows={14}
+        aria-describedby="proof-json-hint"
       />
+      <p id="proof-json-hint" className="muted small">
+        Paste the JSON or drop a <code>.json</code> file on the box.
+      </p>
 
       <details className="key-override">
         <summary>Use a different public key</summary>
@@ -78,7 +84,9 @@ export function VerifyPage() {
           Paste the base64 public key here — leave empty to use the
           built-in <code>VITE_PROOF_PUBLIC_KEY</code>.
         </p>
+        <label htmlFor="key-override">Public key (base64)</label>
         <input
+          id="key-override"
           type="text"
           placeholder="base64 public key (no padding)"
           value={keyOverride}
@@ -86,7 +94,7 @@ export function VerifyPage() {
         />
       </details>
 
-      <button onClick={onVerify} disabled={!text.trim()}>
+      <button type="button" onClick={onVerify} disabled={!text.trim()}>
         Verify
       </button>
 

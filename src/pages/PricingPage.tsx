@@ -159,9 +159,14 @@ function TierCard({
             {ctaLabel}
           </Link>
         ) : (
-          <span className="cta-disabled" aria-disabled="true">
+          <button
+            type="button"
+            className="cta-disabled"
+            disabled
+            aria-disabled="true"
+          >
             {ctaLabel}
-          </span>
+          </button>
         )}
       </p>
 

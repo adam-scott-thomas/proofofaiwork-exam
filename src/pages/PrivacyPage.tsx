@@ -57,9 +57,9 @@ export function PrivacyPage() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Class</th>
-              <th>What</th>
-              <th>Retention</th>
+              <th scope="col">Class</th>
+              <th scope="col">What</th>
+              <th scope="col">Retention</th>
             </tr>
           </thead>
           <tbody>
@@ -265,8 +265,8 @@ export function PrivacyPage() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Right</th>
-              <th>How to exercise it</th>
+              <th scope="col">Right</th>
+              <th scope="col">How to exercise it</th>
             </tr>
           </thead>
           <tbody>

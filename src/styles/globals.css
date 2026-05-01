@@ -370,8 +370,23 @@ p {
 }
 
 .verify-page button:not(:disabled):hover,
-.verify-page button:not(:disabled):focus {
+.verify-page button:not(:disabled):focus-visible {
   filter: brightness(1.1);
+}
+
+/* Make sure native disabled buttons we now use for "coming soon" CTAs
+   render the same as the original styled spans did. */
+button.cta-disabled {
+  border: 0;
+  font: inherit;
+}
+
+/* Fallback focus ring for elements that wouldn't otherwise get one
+   (notably <details> summary and any element with tabIndex). */
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .result {
