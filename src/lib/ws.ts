@@ -10,10 +10,14 @@
  *   2. Server accepts, awaits first frame for ≤5s
  *   3. Client sends: {"type":"hello","token":"<jwt>","session_id":"<uuid>"}
  *   4. Server responds: {"type":"hello_ack"} or closes with code 4401 on bad auth
- *   5. Subsequent frames flow per the chat protocol
+ *   5. Server sends {"type":"ping","server_ts":"..."} every ~25s; client
+ *      MUST reply with {"type":"pong","client_ts":<server_ts>} within 10s
+ *      or the server closes the connection. Handled in this module so
+ *      consumers don't have to know.
+ *   6. Subsequent frames flow per the chat protocol
  *
- * This module is a thin wrapper. The chat reducer that consumes events lives
- * in the ExamSession page; this only owns the connection lifecycle.
+ * This module is a thin wrapper around connection lifecycle + keepalive.
+ * The chat reducer that consumes events lives in the ExamSession page.
  *
  * STUB: full chat-message types land Week 2.
  */
@@ -87,17 +91,31 @@ export function connectWorkbenchWs(
       return;
     }
 
-    if (
-      typeof msg === "object" &&
-      msg !== null &&
-      (msg as { type?: string }).type === "hello_ack"
-    ) {
+    if (typeof msg !== "object" || msg === null) {
+      handlers.onMessage?.(msg);
+      return;
+    }
+    const typed = msg as { type?: string; server_ts?: string };
+
+    if (typed.type === "hello_ack") {
       if (authTimer !== null) {
         window.clearTimeout(authTimer);
         authTimer = null;
       }
       setState("authed");
       handlers.onAuthed?.();
+      return;
+    }
+
+    // App-level keepalive. Backend closes the connection if it doesn't
+    // receive a pong within 10s of its ping. Echo server_ts back as
+    // client_ts so the server can match them up.
+    if (typed.type === "ping" && typeof typed.server_ts === "string") {
+      try {
+        ws.send(JSON.stringify({ type: "pong", client_ts: typed.server_ts }));
+      } catch {
+        /* socket closing; nothing to do */
+      }
       return;
     }
 
