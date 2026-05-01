@@ -41,12 +41,17 @@ export type VerifyFailureReason =
  * Returns a discriminated union with `valid`. On valid=false, `reason`
  * gives the precise failure mode for diagnostic UI.
  */
+// Mirrors `poaw.workbench.schemas.proof.PublicProofOut`. Optional fields
+// are kept optional here because the /verify standalone page accepts
+// hand-pasted JSON which may be missing them; the offline server-stored
+// shape always populates them.
 export interface ProofEnvelope {
   proof_id?: string;
   public_payload: Record<string, unknown>;
   canonical_hash: string;
   signature_b64: string;
   signing_key_id?: string;
+  issued_at?: string;
 }
 
 

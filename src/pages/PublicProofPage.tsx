@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Footer } from "@/components/Footer";
-import { env } from "@/lib/env";
+import { ApiError, getProof } from "@/lib/api";
 import { formatIssuedAt } from "@/lib/format";
 import { useDocumentTitle } from "@/lib/useDocumentTitle";
 import {
@@ -42,33 +42,31 @@ export function PublicProofPage() {
 
   useEffect(() => {
     if (!proofId) return;
+    const ctrl = new AbortController();
     let cancelled = false;
 
     (async () => {
       try {
-        const resp = await fetch(
-          `${env.apiBaseUrl}/api/v1/workbench/proofs/${proofId}`,
-        );
+        const envelope = await getProof(proofId, ctrl.signal);
         if (cancelled) return;
-        if (resp.status === 410) {
-          setFetchState({ kind: "unavailable", proofId });
-          return;
-        }
-        if (resp.status === 404) {
-          setFetchState({ kind: "not_found" });
-          return;
-        }
-        if (!resp.ok) {
-          setFetchState({ kind: "error", message: `HTTP ${resp.status}` });
-          return;
-        }
-        const envelope = (await resp.json()) as ProofEnvelope;
         setFetchState({ kind: "ok", envelope });
 
         const outcome = await verifyProof(envelope);
         if (!cancelled) setVerify(outcome);
       } catch (err: unknown) {
         if (cancelled) return;
+        if (err instanceof ApiError) {
+          if (err.status === 410) {
+            setFetchState({ kind: "unavailable", proofId });
+            return;
+          }
+          if (err.status === 404) {
+            setFetchState({ kind: "not_found" });
+            return;
+          }
+          setFetchState({ kind: "error", message: err.message });
+          return;
+        }
         const message = err instanceof Error ? err.message : String(err);
         setFetchState({ kind: "error", message });
       }
@@ -76,6 +74,7 @@ export function PublicProofPage() {
 
     return () => {
       cancelled = true;
+      ctrl.abort();
     };
   }, [proofId]);
 

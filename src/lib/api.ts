@@ -12,6 +12,7 @@
  */
 
 import { getToken } from "@/lib/auth";
+import type { ProofEnvelope } from "@/lib/verify";
 import {
   ApiError,
   type ApiErrorBody,
@@ -236,9 +237,16 @@ export async function getResults(
 export async function getProof(
   proofId: string,
   signal?: AbortSignal,
-): Promise<unknown> {
+): Promise<ProofEnvelope> {
   // Public endpoint — no auth required.
-  return request<unknown>({
+  // Backend: poaw.workbench.routers.proof.get_proof returns
+  // PublicProofOut on 200, GenericRevokedOut with HTTP 410 on revoked,
+  // and standard error envelope on 404. The 410 path raises ApiError
+  // with status=410, code="proof_unavailable" via the request helper —
+  // callers check that and render the generic "no longer available"
+  // message; the body is intentionally identical for every revocation
+  // reason per plan §G.6.
+  return request<ProofEnvelope>({
     method: "GET",
     path: `/proofs/${proofId}`,
     unauthenticated: true,
