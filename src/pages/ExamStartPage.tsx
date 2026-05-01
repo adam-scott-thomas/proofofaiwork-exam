@@ -16,7 +16,10 @@ import { listModels, createSession, ApiError } from "@/lib/api";
 import type { ListModelsOut, SessionTier } from "@/types/api";
 import { env } from "@/lib/env";
 
-const CONSENT_VERSION = "v2.1";
+// Must match poaw.workbench.constants.CONSENT_VERSION in the backend.
+// Drift here means consent_meta rows get tagged with a version string
+// the backend doesn't recognize — silent audit-trail breakage.
+const CONSENT_VERSION = "wb-consent-2.0";
 
 function ExamStartInner() {
   const navigate = useNavigate();
