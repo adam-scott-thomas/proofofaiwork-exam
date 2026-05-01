@@ -21,13 +21,11 @@
 
 import { env } from "@/lib/env";
 
-
 export interface EnvIssue {
   level: "error" | "warning";
   variable: string;
   message: string;
 }
-
 
 /**
  * Inspect the current environment and return any issues found.
@@ -71,7 +69,7 @@ export function checkEnv(): EnvIssue[] {
       variable: "VITE_PROOF_PUBLIC_KEY",
       message:
         "Ed25519 public key is empty. /verify and /p/:id will fail with " +
-        "\"missing public key\" until this is set to a base64 verifier key.",
+        '"missing public key" until this is set to a base64 verifier key.',
     });
   }
 
@@ -89,7 +87,6 @@ export function checkEnv(): EnvIssue[] {
 
   return issues;
 }
-
 
 /**
  * Side-effect helper: collects issues and console.warn / console.error

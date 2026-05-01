@@ -5,7 +5,6 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
-
 export function CopyButton({
   value,
   label = "Copy",
@@ -53,12 +52,7 @@ export function CopyButton({
   }, [value]);
 
   return (
-    <button
-      type="button"
-      className={className}
-      onClick={onCopy}
-      aria-live="polite"
-    >
+    <button type="button" className={className} onClick={onCopy} aria-live="polite">
       {copied ? copiedLabel : label}
     </button>
   );

@@ -16,7 +16,6 @@ import { describe, expect, it } from "vitest";
 
 import { checkEnv } from "./envValidation";
 
-
 describe("checkEnv", () => {
   it("returns an array of issues", () => {
     const issues = checkEnv();

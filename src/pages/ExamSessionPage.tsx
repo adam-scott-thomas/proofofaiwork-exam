@@ -87,8 +87,8 @@ function ExamSessionInner() {
       <section>
         <h2>Section UI</h2>
         <p className="muted">
-          Section navigator, streaming chat, and submit flow land Week 2. This
-          page is a connection-only skeleton.
+          Section navigator, streaming chat, and submit flow land Week 2. This page is a
+          connection-only skeleton.
         </p>
         {lastMessage !== null && (
           <pre

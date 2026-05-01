@@ -22,8 +22,15 @@
   --space-12: 48px;
   --max-width: 720px;
 
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-fg);
@@ -272,7 +279,9 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bar-fill { transition: none; }
+  .bar-fill {
+    transition: none;
+  }
 }
 
 /* details / summary */
@@ -417,7 +426,6 @@ summary:focus-visible,
   margin: var(--space-2) 0;
 }
 
-
 /* ============================== pricing ================================== */
 
 .pricing-page {
@@ -543,7 +551,6 @@ summary:focus-visible,
   margin: 0;
 }
 
-
 /* ============================== legal pages =============================== */
 
 .legal-page {
@@ -638,7 +645,6 @@ summary:focus-visible,
   margin: var(--space-4) 0;
 }
 
-
 /* ============================== footer ==================================== */
 
 .site-footer {
@@ -700,7 +706,6 @@ summary:focus-visible,
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
 }
-
 
 /* ============================== share row ================================= */
 

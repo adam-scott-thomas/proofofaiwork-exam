@@ -28,11 +28,7 @@ function resolveWsBaseUrl(): string {
   const fromEnv = import.meta.env.VITE_WS_BASE_URL;
   if (typeof fromEnv === "string" && fromEnv.length > 0) return fromEnv;
   if (typeof window === "undefined") return "ws://localhost";
-  return (
-    (window.location.protocol === "https:" ? "wss:" : "ws:") +
-    "//" +
-    window.location.host
-  );
+  return (window.location.protocol === "https:" ? "wss:" : "ws:") + "//" + window.location.host;
 }
 
 export type WsState = "connecting" | "authed" | "closed" | "error";
@@ -49,10 +45,7 @@ export interface WsConnection {
   close: () => void;
 }
 
-export function connectWorkbenchWs(
-  sessionId: string,
-  handlers: WsHandlers,
-): WsConnection {
+export function connectWorkbenchWs(sessionId: string, handlers: WsHandlers): WsConnection {
   const token = getToken();
   if (!token) {
     handlers.onStateChange?.("error");

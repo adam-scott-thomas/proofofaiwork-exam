@@ -30,12 +30,7 @@ export type SessionState =
 
 export type SectionId = "diagnose" | "perform" | "repair";
 
-export type SectionState =
-  | "not_started"
-  | "in_progress"
-  | "submitted"
-  | "graded"
-  | "expired";
+export type SectionState = "not_started" | "in_progress" | "submitted" | "graded" | "expired";
 
 // ---------- Errors ----------
 

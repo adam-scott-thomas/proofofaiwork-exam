@@ -34,59 +34,51 @@ export function LandingPage() {
 
   return (
     <>
-    <main className="stack-6">
-      <section>
-        <h1>PoAW Exam</h1>
-        <p>
-          A timed assessment that measures how well you collaborate with an AI
-          assistant on real work. Your results produce a publicly verifiable
-          proof you can share with employers.
-        </p>
-      </section>
-
-      <section>
-        <h2>Open vs. Verified</h2>
-        <p>
-          <strong>Open</strong> is honor-system with signal-level proctoring.
-          We log paste, focus, and fingerprint signals, but we don't verify
-          your identity and we can't tell if you had help. The score is
-          informative, not employer-verifiable.
-        </p>
-        <p>
-          <strong>Verified</strong> includes identity verification (via Plaid),
-          stronger proctoring, and produces a public verified proof that
-          employers can trust. Verified launches Week 10.
-        </p>
-        <p>
-          <Link to="/exam/start">Start the Open exam →</Link>
-          {" · "}
-          <Link to="/pricing">See pricing</Link>
-        </p>
-      </section>
-
-      <section>
-        <h2>System status</h2>
-        {health.kind === "loading" && (
-          <p className="muted">Checking backend…</p>
-        )}
-        {health.kind === "down" && (
-          <p className="error">
-            Backend unreachable: {health.message}.{" "}
-            <Link to="/">Refresh</Link>
+      <main className="stack-6">
+        <section>
+          <h1>PoAW Exam</h1>
+          <p>
+            A timed assessment that measures how well you collaborate with an AI assistant on real
+            work. Your results produce a publicly verifiable proof you can share with employers.
           </p>
-        )}
-        {health.kind === "ok" && (
-          <p
-            className={health.data.status === "ok" ? "success" : "error"}
-          >
-            Backend: {health.data.status} · Open enabled:{" "}
-            {String(health.data.checks.wb_enabled)} · Verified enabled:{" "}
-            {String(health.data.checks.wb_verified_enabled)}
+        </section>
+
+        <section>
+          <h2>Open vs. Verified</h2>
+          <p>
+            <strong>Open</strong> is honor-system with signal-level proctoring. We log paste, focus,
+            and fingerprint signals, but we don't verify your identity and we can't tell if you had
+            help. The score is informative, not employer-verifiable.
           </p>
-        )}
-      </section>
-    </main>
-    <Footer />
+          <p>
+            <strong>Verified</strong> includes identity verification (via Plaid), stronger
+            proctoring, and produces a public verified proof that employers can trust. Verified
+            launches Week 10.
+          </p>
+          <p>
+            <Link to="/exam/start">Start the Open exam →</Link>
+            {" · "}
+            <Link to="/pricing">See pricing</Link>
+          </p>
+        </section>
+
+        <section>
+          <h2>System status</h2>
+          {health.kind === "loading" && <p className="muted">Checking backend…</p>}
+          {health.kind === "down" && (
+            <p className="error">
+              Backend unreachable: {health.message}. <Link to="/">Refresh</Link>
+            </p>
+          )}
+          {health.kind === "ok" && (
+            <p className={health.data.status === "ok" ? "success" : "error"}>
+              Backend: {health.data.status} · Open enabled: {String(health.data.checks.wb_enabled)}{" "}
+              · Verified enabled: {String(health.data.checks.wb_verified_enabled)}
+            </p>
+          )}
+        </section>
+      </main>
+      <Footer />
     </>
   );
 }

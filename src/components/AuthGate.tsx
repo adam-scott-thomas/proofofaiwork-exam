@@ -11,11 +11,7 @@
 
 import { useEffect, useState } from "react";
 import { env } from "@/lib/env";
-import {
-  getToken,
-  requestTokenViaIframeHandoff,
-  setDevToken,
-} from "@/lib/auth";
+import { getToken, requestTokenViaIframeHandoff, setDevToken } from "@/lib/auth";
 
 type AuthState =
   | { kind: "checking" }
@@ -78,8 +74,8 @@ export function AuthGate({ children }: AuthGateProps) {
       <main className="stack-3">
         <h1>Sign in to continue</h1>
         <p>
-          You'll be sent to <code>proofofaiwork.com</code> to confirm your
-          account, then bounced back here.
+          You'll be sent to <code>proofofaiwork.com</code> to confirm your account, then bounced
+          back here.
         </p>
         <div className="row">
           <button type="button" className="primary" onClick={startHandoff}>
@@ -95,8 +91,8 @@ export function AuthGate({ children }: AuthGateProps) {
       <main className="stack-3">
         <h1>Dev auth fallback</h1>
         <p className="muted">
-          <code>VITE_AUTH_ORIGIN</code> is unset. Paste any string to use as a
-          dev bearer token. Disabled in production builds.
+          <code>VITE_AUTH_ORIGIN</code> is unset. Paste any string to use as a dev bearer token.
+          Disabled in production builds.
         </p>
         <input
           type="text"
@@ -120,10 +116,7 @@ export function AuthGate({ children }: AuthGateProps) {
       <h1>Sign-in failed</h1>
       <p className="error">{state.message}</p>
       <div className="row">
-        <button
-          type="button"
-          onClick={() => setState({ kind: "needs_handoff" })}
-        >
+        <button type="button" onClick={() => setState({ kind: "needs_handoff" })}>
           Try again
         </button>
       </div>

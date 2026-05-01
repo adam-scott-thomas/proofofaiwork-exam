@@ -13,7 +13,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { clearToken, getToken, setToken } from "./auth";
 
-
 function makeMockStorage(): {
   storage: Record<string, string>;
   api: Storage;
@@ -27,9 +26,7 @@ function makeMockStorage(): {
       return Object.keys(storage)[i] ?? null;
     },
     getItem(k: string): string | null {
-      return Object.prototype.hasOwnProperty.call(storage, k)
-        ? storage[k]!
-        : null;
+      return Object.prototype.hasOwnProperty.call(storage, k) ? storage[k]! : null;
     },
     setItem(k: string, v: string): void {
       storage[k] = v;
@@ -43,7 +40,6 @@ function makeMockStorage(): {
   };
   return { storage, api };
 }
-
 
 describe("auth token storage", () => {
   let storage: Record<string, string>;
@@ -84,9 +80,7 @@ describe("auth token storage", () => {
   });
 
   it("getToken returns null when only the expiry (no token) is stored", () => {
-    storage["poaw_workbench_token_exp_v1"] = new Date(
-      Date.now() + 60_000,
-    ).toISOString();
+    storage["poaw_workbench_token_exp_v1"] = new Date(Date.now() + 60_000).toISOString();
     expect(getToken()).toBeNull();
   });
 

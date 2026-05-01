@@ -28,7 +28,6 @@ export type VerifyFailureReason =
   | "signature_invalid"
   | "decode_error";
 
-
 /**
  * Verify a full proof envelope. The shape is what GET /proofs/{id}
  * returns:
@@ -53,7 +52,6 @@ export interface ProofEnvelope {
   signing_key_id?: string;
   issued_at?: string;
 }
-
 
 export async function verifyProof(
   envelope: ProofEnvelope,
@@ -104,9 +102,7 @@ export async function verifyProof(
   return { valid: true, canonicalHash: computedHash };
 }
 
-
 // --------------------------- helpers ---------------------------------------
-
 
 async function sha256Hex(data: Uint8Array): Promise<string> {
   const buf = await crypto.subtle.digest(
@@ -119,7 +115,6 @@ async function sha256Hex(data: Uint8Array): Promise<string> {
   return out;
 }
 
-
 function b64decode(s: string): Uint8Array {
   // Accept padded or unpadded base64 — the server emits without padding.
   let padded = s.trim();
@@ -130,9 +125,7 @@ function b64decode(s: string): Uint8Array {
   return out;
 }
 
-
 // --------------------------- friendly reason text -------------------------
-
 
 export function reasonLabel(reason: VerifyFailureReason): string {
   switch (reason) {

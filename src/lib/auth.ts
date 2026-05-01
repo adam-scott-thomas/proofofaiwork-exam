@@ -74,10 +74,12 @@ export function clearToken(): void {
  * a real /auth/issue-workbench-token endpoint when one exists; otherwise the
  * promise will time out and the caller should fall back to dev-mode auth.
  */
-export async function requestTokenViaIframeHandoff(opts: {
-  authOrigin: string;
-  timeoutMs?: number;
-} = { authOrigin: "" }): Promise<string> {
+export async function requestTokenViaIframeHandoff(
+  opts: {
+    authOrigin: string;
+    timeoutMs?: number;
+  } = { authOrigin: "" },
+): Promise<string> {
   const { authOrigin, timeoutMs = 30_000 } = opts;
   if (!authOrigin) {
     throw new Error("requestTokenViaIframeHandoff: authOrigin not configured");
@@ -89,9 +91,7 @@ export async function requestTokenViaIframeHandoff(opts: {
     "width=480,height=640,noopener=no,noreferrer=no",
   );
   if (!popup) {
-    throw new Error(
-      "Could not open auth popup. Disable popup blocker and retry.",
-    );
+    throw new Error("Could not open auth popup. Disable popup blocker and retry.");
   }
 
   return new Promise<string>((resolve, reject) => {

@@ -11,14 +11,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ApiError, getProof, getWorkbenchHealth, listModels } from "./api";
 
-
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: { "content-type": "application/json" },
   });
 }
-
 
 describe("api.ts request helper", () => {
   beforeEach(() => {
@@ -31,8 +29,12 @@ describe("api.ts request helper", () => {
         }
         return null;
       },
-      setItem() { /* noop */ },
-      removeItem() { /* noop */ },
+      setItem() {
+        /* noop */
+      },
+      removeItem() {
+        /* noop */
+      },
     });
   });
 
@@ -40,11 +42,8 @@ describe("api.ts request helper", () => {
     vi.unstubAllGlobals();
   });
 
-
   it("attaches the Bearer token on authenticated calls", async () => {
-    const fetchMock = vi.fn(async () =>
-      jsonResponse(200, { models: [] }),
-    );
+    const fetchMock = vi.fn(async () => jsonResponse(200, { models: [] }));
     vi.stubGlobal("fetch", fetchMock);
 
     await listModels();
@@ -90,9 +89,15 @@ describe("api.ts request helper", () => {
   it("throws ApiError(401, no_token) when no token is available", async () => {
     // Override localStorage to return null for the token.
     vi.stubGlobal("localStorage", {
-      getItem() { return null; },
-      setItem() { /* noop */ },
-      removeItem() { /* noop */ },
+      getItem() {
+        return null;
+      },
+      setItem() {
+        /* noop */
+      },
+      removeItem() {
+        /* noop */
+      },
     });
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
@@ -106,15 +111,18 @@ describe("api.ts request helper", () => {
   });
 
   it("parses the backend error envelope into ApiError fields", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () =>
-      jsonResponse(409, {
-        error: {
-          code: "cooldown_active",
-          message: "next attempt available in 3 days",
-          details: { resume_at: "2026-05-04T00:00:00Z" },
-        },
-      }),
-    ));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse(409, {
+          error: {
+            code: "cooldown_active",
+            message: "next attempt available in 3 days",
+            details: { resume_at: "2026-05-04T00:00:00Z" },
+          },
+        }),
+      ),
+    );
 
     await expect(listModels()).rejects.toMatchObject({
       status: 409,
@@ -125,9 +133,10 @@ describe("api.ts request helper", () => {
   });
 
   it("falls back to unknown_error when the body is not the envelope shape", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () =>
-      jsonResponse(500, { plain: "string error" }),
-    ));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => jsonResponse(500, { plain: "string error" })),
+    );
 
     await expect(listModels()).rejects.toMatchObject({
       status: 500,
@@ -136,9 +145,12 @@ describe("api.ts request helper", () => {
   });
 
   it("handles network-level failures with a uniform ApiError", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () => {
-      throw new TypeError("Failed to fetch");
-    }));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        throw new TypeError("Failed to fetch");
+      }),
+    );
 
     await expect(listModels()).rejects.toMatchObject({
       status: 0,
@@ -147,9 +159,10 @@ describe("api.ts request helper", () => {
   });
 
   it("returns parsed body on 200", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () =>
-      jsonResponse(200, { models: [{ alias: "claude" }] }),
-    ));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => jsonResponse(200, { models: [{ alias: "claude" }] })),
+    );
 
     const result = await listModels();
     expect(result).toEqual({ models: [{ alias: "claude" }] });
@@ -178,11 +191,14 @@ describe("api.ts request helper", () => {
   });
 
   it("ApiError carries the structured fields and is instanceof Error", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () =>
-      jsonResponse(403, {
-        error: { code: "forbidden", message: "nope" },
-      }),
-    ));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse(403, {
+          error: { code: "forbidden", message: "nope" },
+        }),
+      ),
+    );
 
     try {
       await listModels();

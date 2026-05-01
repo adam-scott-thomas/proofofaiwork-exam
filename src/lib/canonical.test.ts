@@ -11,11 +11,9 @@ import { describe, expect, it } from "vitest";
 
 import { CanonicalError, canonicalize } from "./canonical";
 
-
 function decode(bytes: Uint8Array): string {
   return new TextDecoder().decode(bytes);
 }
-
 
 describe("canonicalize", () => {
   it("simple object — keys sorted", () => {
@@ -46,8 +44,9 @@ describe("canonicalize", () => {
   });
 
   it("booleans + null", () => {
-    expect(decode(canonicalize({ a: true, b: false, c: null })))
-      .toBe('{"a":true,"b":false,"c":null}');
+    expect(decode(canonicalize({ a: true, b: false, c: null }))).toBe(
+      '{"a":true,"b":false,"c":null}',
+    );
   });
 
   it("empty object + array", () => {

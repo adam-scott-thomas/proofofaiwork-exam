@@ -10,13 +10,7 @@ import { useCallback, useState } from "react";
 
 import { Footer } from "@/components/Footer";
 import { useDocumentTitle } from "@/lib/useDocumentTitle";
-import {
-  reasonLabel,
-  verifyProof,
-  type ProofEnvelope,
-  type VerifyOutcome,
-} from "@/lib/verify";
-
+import { reasonLabel, verifyProof, type ProofEnvelope, type VerifyOutcome } from "@/lib/verify";
 
 export function VerifyPage() {
   useDocumentTitle("Verify a proof");
@@ -52,74 +46,72 @@ export function VerifyPage() {
 
   return (
     <>
-    <main className="verify-page">
-      <h1>Verify a PoAW Exam proof</h1>
-      <p className="muted">
-        Paste a proof JSON below or drop a `.json` file on the box. The
-        signature is checked entirely in your browser against the public
-        key baked into this page. No network calls.
-      </p>
-
-      <label htmlFor="proof-json">Proof JSON</label>
-      <textarea
-        id="proof-json"
-        className="proof-input"
-        placeholder='{"proof_id":"...","public_payload":{...},"signature_b64":"..."}'
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onDrop={onDrop}
-        onDragOver={(e) => e.preventDefault()}
-        spellCheck={false}
-        rows={14}
-        aria-describedby="proof-json-hint"
-      />
-      <p id="proof-json-hint" className="muted small">
-        Paste the JSON or drop a <code>.json</code> file on the box.
-      </p>
-
-      <details className="key-override">
-        <summary>Use a different public key</summary>
-        <p className="small">
-          For verifying historical proofs signed by a rotated-out key.
-          Paste the base64 public key here — leave empty to use the
-          built-in <code>VITE_PROOF_PUBLIC_KEY</code>.
+      <main className="verify-page">
+        <h1>Verify a PoAW Exam proof</h1>
+        <p className="muted">
+          Paste a proof JSON below or drop a `.json` file on the box. The signature is checked
+          entirely in your browser against the public key baked into this page. No network calls.
         </p>
-        <label htmlFor="key-override">Public key (base64)</label>
-        <input
-          id="key-override"
-          type="text"
-          placeholder="base64 public key (no padding)"
-          value={keyOverride}
-          onChange={(e) => setKeyOverride(e.target.value)}
+
+        <label htmlFor="proof-json">Proof JSON</label>
+        <textarea
+          id="proof-json"
+          className="proof-input"
+          placeholder='{"proof_id":"...","public_payload":{...},"signature_b64":"..."}'
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onDrop={onDrop}
+          onDragOver={(e) => e.preventDefault()}
+          spellCheck={false}
+          rows={14}
+          aria-describedby="proof-json-hint"
         />
-      </details>
+        <p id="proof-json-hint" className="muted small">
+          Paste the JSON or drop a <code>.json</code> file on the box.
+        </p>
 
-      <button type="button" onClick={onVerify} disabled={!text.trim()}>
-        Verify
-      </button>
+        <details className="key-override">
+          <summary>Use a different public key</summary>
+          <p className="small">
+            For verifying historical proofs signed by a rotated-out key. Paste the base64 public key
+            here — leave empty to use the built-in <code>VITE_PROOF_PUBLIC_KEY</code>.
+          </p>
+          <label htmlFor="key-override">Public key (base64)</label>
+          <input
+            id="key-override"
+            type="text"
+            placeholder="base64 public key (no padding)"
+            value={keyOverride}
+            onChange={(e) => setKeyOverride(e.target.value)}
+          />
+        </details>
 
-      {parseError && (
-        <p className="badge badge-bad" role="alert">{parseError}</p>
-      )}
-      {outcome && (
-        <ResultBlock outcome={outcome} />
-      )}
-    </main>
-    <Footer />
+        <button type="button" onClick={onVerify} disabled={!text.trim()}>
+          Verify
+        </button>
+
+        {parseError && (
+          <p className="badge badge-bad" role="alert">
+            {parseError}
+          </p>
+        )}
+        {outcome && <ResultBlock outcome={outcome} />}
+      </main>
+      <Footer />
     </>
   );
 }
-
 
 function ResultBlock({ outcome }: { outcome: VerifyOutcome }) {
   if (outcome.valid) {
     return (
       <div className="result result-ok" role="status">
         <h2>✓ Signature verified</h2>
-        <p>The proof's payload matches its signature; this is a genuine proof
-        issued by PoAW.</p>
+        <p>The proof's payload matches its signature; this is a genuine proof issued by PoAW.</p>
         {outcome.canonicalHash && (
-          <p>Canonical hash: <code className="hash">{outcome.canonicalHash}</code></p>
+          <p>
+            Canonical hash: <code className="hash">{outcome.canonicalHash}</code>
+          </p>
         )}
       </div>
     );
@@ -129,7 +121,9 @@ function ResultBlock({ outcome }: { outcome: VerifyOutcome }) {
       <h2>✗ Verification failed</h2>
       <p>{reasonLabel(outcome.reason)}</p>
       {outcome.canonicalHash && (
-        <p>Server-recomputed hash: <code className="hash">{outcome.canonicalHash}</code></p>
+        <p>
+          Server-recomputed hash: <code className="hash">{outcome.canonicalHash}</code>
+        </p>
       )}
     </div>
   );

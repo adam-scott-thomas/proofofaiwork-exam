@@ -18,21 +18,14 @@ import { Footer } from "@/components/Footer";
 import { ApiError, getProof } from "@/lib/api";
 import { formatIssuedAt } from "@/lib/format";
 import { useDocumentTitle } from "@/lib/useDocumentTitle";
-import {
-  reasonLabel,
-  verifyProof,
-  type ProofEnvelope,
-  type VerifyOutcome,
-} from "@/lib/verify";
-
+import { reasonLabel, verifyProof, type ProofEnvelope, type VerifyOutcome } from "@/lib/verify";
 
 type FetchState =
   | { kind: "loading" }
   | { kind: "ok"; envelope: ProofEnvelope }
-  | { kind: "unavailable"; proofId: string }       // 410 — generic
+  | { kind: "unavailable"; proofId: string } // 410 — generic
   | { kind: "not_found" }
   | { kind: "error"; message: string };
-
 
 export function PublicProofPage() {
   const { proofId } = useParams<{ proofId: string }>();
@@ -80,7 +73,11 @@ export function PublicProofPage() {
   }, [proofId]);
 
   if (fetchState.kind === "loading") {
-    return <Page><p>Loading proof…</p></Page>;
+    return (
+      <Page>
+        <p>Loading proof…</p>
+      </Page>
+    );
   }
 
   if (fetchState.kind === "unavailable") {
@@ -88,8 +85,8 @@ export function PublicProofPage() {
       <Page>
         <h1>This proof is no longer available</h1>
         <p>
-          The credential holder withdrew this proof, or it has otherwise
-          been removed. Contact the credential holder for current status.
+          The credential holder withdrew this proof, or it has otherwise been removed. Contact the
+          credential holder for current status.
         </p>
         <p className="muted">Proof ID: {fetchState.proofId}</p>
       </Page>
@@ -120,30 +117,23 @@ export function PublicProofPage() {
     <Page>
       <h1>{payload.user.display_name ?? payload.user.handle}</h1>
       <p className="muted">
-        {payload.exam.name} · {payload.exam.version} ·{" "}
-        <strong>{payload.exam.tier}</strong>
+        {payload.exam.name} · {payload.exam.version} · <strong>{payload.exam.tier}</strong>
       </p>
 
       <section>
-        <h2>{payload.scores.level} — {payload.scores.composite}/100</h2>
-        {payload.scores.percentile != null && (
-          <p>Percentile: {payload.scores.percentile}</p>
-        )}
+        <h2>
+          {payload.scores.level} — {payload.scores.composite}/100
+        </h2>
+        {payload.scores.percentile != null && <p>Percentile: {payload.scores.percentile}</p>}
         <Dimensions dims={payload.scores.dimensions} />
       </section>
 
       <section className="proof-share">
         <h3>Share this proof</h3>
-        <p className="muted small">
-          Anyone with this link can verify the signature offline.
-        </p>
+        <p className="muted small">Anyone with this link can verify the signature offline.</p>
         <div className="share-row">
           <code className="share-url">{window.location.href}</code>
-          <CopyButton
-            value={window.location.href}
-            label="Copy link"
-            className="share-copy"
-          />
+          <CopyButton value={window.location.href} label="Copy link" className="share-copy" />
         </div>
       </section>
 
@@ -153,10 +143,13 @@ export function PublicProofPage() {
         <details>
           <summary>Technical details</summary>
           <ul>
-            <li>Signing key id: <code>{envelope.signing_key_id ?? "?"}</code></li>
-            <li>Canonical hash: <code className="hash">
-              {verify?.canonicalHash ?? envelope.canonical_hash}
-            </code></li>
+            <li>
+              Signing key id: <code>{envelope.signing_key_id ?? "?"}</code>
+            </li>
+            <li>
+              Canonical hash:{" "}
+              <code className="hash">{verify?.canonicalHash ?? envelope.canonical_hash}</code>
+            </li>
             <li>
               Issued:{" "}
               <time
@@ -183,22 +176,22 @@ export function PublicProofPage() {
         <h3>Models used</h3>
         <ul>
           {payload.exam.model_version_alias.map((m) => (
-            <li key={m}><code>{m}</code></li>
+            <li key={m}>
+              <code>{m}</code>
+            </li>
           ))}
         </ul>
       </section>
 
       <p className="muted small">
-        Verified independently in your browser using libsodium-compatible
-        Ed25519. No data left this page after the proof was fetched.
+        Verified independently in your browser using libsodium-compatible Ed25519. No data left this
+        page after the proof was fetched.
       </p>
     </Page>
   );
 }
 
-
 // --------------------------- partials --------------------------------------
-
 
 function SignatureBadge({ outcome }: { outcome: VerifyOutcome | null }) {
   if (outcome === null) return <p className="muted">Verifying…</p>;
@@ -216,7 +209,6 @@ function SignatureBadge({ outcome }: { outcome: VerifyOutcome | null }) {
   );
 }
 
-
 function Dimensions({ dims }: { dims: Record<string, number> }) {
   const entries = Object.entries(dims).sort();
   return (
@@ -225,7 +217,9 @@ function Dimensions({ dims }: { dims: Record<string, number> }) {
         {entries.map(([k, v]) => (
           <tr key={k}>
             <th scope="row">{k.replace(/_/g, " ")}</th>
-            <td><strong>{v}</strong>/100</td>
+            <td>
+              <strong>{v}</strong>/100
+            </td>
             <td>
               <div className="bar" aria-hidden>
                 <div className="bar-fill" style={{ width: `${v}%` }} />
@@ -238,7 +232,6 @@ function Dimensions({ dims }: { dims: Record<string, number> }) {
   );
 }
 
-
 function Page({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -248,7 +241,6 @@ function Page({ children }: { children: React.ReactNode }) {
   );
 }
 
-
 function deriveProofTitle(state: FetchState): string {
   if (state.kind !== "ok") return "Proof";
   const payload = state.envelope.public_payload as unknown as PublicPayload;
@@ -257,9 +249,7 @@ function deriveProofTitle(state: FetchState): string {
   return score != null ? `${who} — ${score}/100` : who;
 }
 
-
 // --------------------------- payload type ---------------------------------
-
 
 interface PublicPayload {
   v: number;

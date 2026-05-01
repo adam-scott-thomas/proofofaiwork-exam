@@ -46,12 +46,17 @@ function stringify(v: unknown): string {
   if (typeof v === "object") {
     // ArrayBuffers, Maps, Sets, Dates, RegExps etc. all reject — caller
     // should convert to plain JSON-shaped values first.
-    if (v instanceof Date || v instanceof Map || v instanceof Set ||
-        v instanceof RegExp || ArrayBuffer.isView(v)) {
+    if (
+      v instanceof Date ||
+      v instanceof Map ||
+      v instanceof Set ||
+      v instanceof RegExp ||
+      ArrayBuffer.isView(v)
+    ) {
       throw new CanonicalError(`non-canonical type: ${(v as object).constructor.name}`);
     }
     const obj = v as Record<string, unknown>;
-    const keys = Object.keys(obj).sort();   // codepoint sort
+    const keys = Object.keys(obj).sort(); // codepoint sort
     const parts: string[] = [];
     for (const k of keys) {
       parts.push(JSON.stringify(k) + ":" + stringify(obj[k]));

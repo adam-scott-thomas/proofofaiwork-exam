@@ -105,48 +105,40 @@ function ExamStartInner() {
               onChange={() => setTier("verified")}
             />{" "}
             Verified (Plaid IDV + payment, $49)
-            {!verifiedAvailable && (
-              <span className="muted"> — coming Week 10</span>
-            )}
+            {!verifiedAvailable && <span className="muted"> — coming Week 10</span>}
           </label>
         </div>
       </section>
 
       <section>
         <h2>Models you'll be paired with</h2>
-        {models.kind === "loading" && (
-          <p className="muted">Loading model list…</p>
-        )}
+        {models.kind === "loading" && <p className="muted">Loading model list…</p>}
         {models.kind === "ok" && (
           <ul>
             {models.data.models
               .filter((m) => m.available_for_tier.includes(tier))
               .map((m) => (
                 <li key={m.alias}>
-                  <strong>{m.display_name}</strong>{" "}
-                  <span className="muted">({m.alias})</span>
+                  <strong>{m.display_name}</strong> <span className="muted">({m.alias})</span>
                 </li>
               ))}
           </ul>
         )}
-        {models.kind === "stub" && (
-          <p className="muted">{models.message}</p>
-        )}
+        {models.kind === "stub" && <p className="muted">{models.message}</p>}
         {models.kind === "error" && (
           <p className="error">Could not load models: {models.message}</p>
         )}
         <p className="muted">
-          The server picks which models are eligible for each tier. The
-          frontend never hardcodes model names.
+          The server picks which models are eligible for each tier. The frontend never hardcodes
+          model names.
         </p>
       </section>
 
       <section>
         <h2>Consent</h2>
         <p className="muted">
-          By starting, you confirm you've read the consent terms (version{" "}
-          {CONSENT_VERSION}) and that you'll take the exam without unauthorized
-          assistance.
+          By starting, you confirm you've read the consent terms (version {CONSENT_VERSION}) and
+          that you'll take the exam without unauthorized assistance.
         </p>
         <label>
           <input

@@ -15,7 +15,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { connectWorkbenchWs } from "./ws";
 
-
 // Minimal stand-in for the parts of the DOM WebSocket interface we use.
 interface MockSocket {
   readyState: number;
@@ -29,7 +28,6 @@ interface MockSocket {
   _sent: string[];
 }
 
-
 function makeMockWebSocket(): { Mock: typeof WebSocket; latest: () => MockSocket } {
   let latest: MockSocket | null = null;
 
@@ -37,9 +35,12 @@ function makeMockWebSocket(): { Mock: typeof WebSocket; latest: () => MockSocket
   // and exposes _open/_message/_close hooks so tests can drive lifecycle.
   function MockCtor(this: unknown, _url: string): MockSocket {
     const sent: string[] = [];
-    const listeners: Record<string, ((ev: { data?: string; code?: number; reason?: string }) => void)[]> = {};
+    const listeners: Record<
+      string,
+      ((ev: { data?: string; code?: number; reason?: string }) => void)[]
+    > = {};
     const sock: MockSocket = {
-      readyState: 0,  // CONNECTING
+      readyState: 0, // CONNECTING
       send(data: string) {
         sent.push(data);
       },
@@ -47,7 +48,7 @@ function makeMockWebSocket(): { Mock: typeof WebSocket; latest: () => MockSocket
         sock.readyState = 3;
       },
       _open() {
-        sock.readyState = 1;  // OPEN
+        sock.readyState = 1; // OPEN
         listeners.open?.forEach((cb) => cb({}));
       },
       _message(data: unknown) {
@@ -65,10 +66,14 @@ function makeMockWebSocket(): { Mock: typeof WebSocket; latest: () => MockSocket
     };
 
     // The transport uses .addEventListener — proxy it onto our listeners map.
-    (sock as unknown as {
-      addEventListener: (type: string, cb: (ev: unknown) => void) => void;
-    }).addEventListener = (type, cb) => {
-      (listeners[type] ||= []).push(cb as (ev: { data?: string; code?: number; reason?: string }) => void);
+    (
+      sock as unknown as {
+        addEventListener: (type: string, cb: (ev: unknown) => void) => void;
+      }
+    ).addEventListener = (type, cb) => {
+      (listeners[type] ||= []).push(
+        cb as (ev: { data?: string; code?: number; reason?: string }) => void,
+      );
     };
 
     latest = sock;
@@ -89,7 +94,6 @@ function makeMockWebSocket(): { Mock: typeof WebSocket; latest: () => MockSocket
   };
 }
 
-
 describe("connectWorkbenchWs", () => {
   let restore: () => void;
   let latest: () => MockSocket;
@@ -104,8 +108,12 @@ describe("connectWorkbenchWs", () => {
         }
         return null;
       },
-      setItem() { /* noop */ },
-      removeItem() { /* noop */ },
+      setItem() {
+        /* noop */
+      },
+      removeItem() {
+        /* noop */
+      },
     });
 
     const { Mock, latest: getLatest } = makeMockWebSocket();

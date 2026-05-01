@@ -114,9 +114,7 @@ async function request<T>(opts: RequestOpts): Promise<T> {
 
 // ---------- Public endpoints ----------
 
-export async function getWorkbenchHealth(
-  signal?: AbortSignal,
-): Promise<WorkbenchHealthOut> {
+export async function getWorkbenchHealth(signal?: AbortSignal): Promise<WorkbenchHealthOut> {
   return request<WorkbenchHealthOut>({
     method: "GET",
     path: "/workbench",
@@ -126,9 +124,7 @@ export async function getWorkbenchHealth(
   });
 }
 
-export async function listModels(
-  signal?: AbortSignal,
-): Promise<ListModelsOut> {
+export async function listModels(signal?: AbortSignal): Promise<ListModelsOut> {
   // Server is source of truth for model availability. Frontend NEVER
   // hardcodes model aliases (per v2 decision #10).
   return request<ListModelsOut>({
@@ -152,10 +148,7 @@ export async function createSession(
   });
 }
 
-export async function getSession(
-  sessionId: string,
-  signal?: AbortSignal,
-): Promise<unknown> {
+export async function getSession(sessionId: string, signal?: AbortSignal): Promise<unknown> {
   // Stubbed on backend until Week 2; type stays unknown for now.
   return request<unknown>({
     method: "GET",
@@ -164,10 +157,7 @@ export async function getSession(
   });
 }
 
-export async function getSessionState(
-  sessionId: string,
-  signal?: AbortSignal,
-): Promise<unknown> {
+export async function getSessionState(sessionId: string, signal?: AbortSignal): Promise<unknown> {
   return request<unknown>({
     method: "GET",
     path: `/sessions/${sessionId}/state`,
@@ -175,10 +165,7 @@ export async function getSessionState(
   });
 }
 
-export async function startSession(
-  sessionId: string,
-  signal?: AbortSignal,
-): Promise<unknown> {
+export async function startSession(sessionId: string, signal?: AbortSignal): Promise<unknown> {
   return request<unknown>({
     method: "POST",
     path: `/sessions/${sessionId}/start`,
@@ -186,10 +173,7 @@ export async function startSession(
   });
 }
 
-export async function submitSession(
-  sessionId: string,
-  signal?: AbortSignal,
-): Promise<unknown> {
+export async function submitSession(sessionId: string, signal?: AbortSignal): Promise<unknown> {
   return request<unknown>({
     method: "POST",
     path: `/sessions/${sessionId}/submit`,
@@ -227,10 +211,7 @@ export async function submitSection(
 
 // ---------- Results / proofs ----------
 
-export async function getResults(
-  sessionId: string,
-  signal?: AbortSignal,
-): Promise<unknown> {
+export async function getResults(sessionId: string, signal?: AbortSignal): Promise<unknown> {
   return request<unknown>({
     method: "GET",
     path: `/results/${sessionId}`,
@@ -238,10 +219,7 @@ export async function getResults(
   });
 }
 
-export async function getProof(
-  proofId: string,
-  signal?: AbortSignal,
-): Promise<ProofEnvelope> {
+export async function getProof(proofId: string, signal?: AbortSignal): Promise<ProofEnvelope> {
   // Public endpoint — no auth required.
   // Backend: poaw.workbench.routers.proof.get_proof returns
   // PublicProofOut on 200, GenericRevokedOut with HTTP 410 on revoked,

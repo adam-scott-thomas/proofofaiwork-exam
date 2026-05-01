@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { formatIssuedAt } from "./format";
 
-
 describe("formatIssuedAt", () => {
   it("renders a human-readable date for a valid ISO timestamp", () => {
     const r = formatIssuedAt("2026-05-01T16:09:32Z");

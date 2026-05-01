@@ -9,7 +9,6 @@ import { describe, expect, it } from "vitest";
 import { canonicalize } from "./canonical";
 import { verifyProof, type ProofEnvelope } from "./verify";
 
-
 function b64encode(bytes: Uint8Array): string {
   let bin = "";
   for (const b of bytes) bin += String.fromCharCode(b);
@@ -25,7 +24,6 @@ async function sha256Hex(data: Uint8Array): Promise<string> {
   for (const b of new Uint8Array(buf)) out += b.toString(16).padStart(2, "0");
   return out;
 }
-
 
 async function makeSigned(
   payload: Record<string, unknown>,
@@ -43,13 +41,11 @@ async function makeSigned(
   return { envelope, pubB64: b64encode(publicKey) };
 }
 
-
 const PAYLOAD = {
   v: 1,
   proof_id: "test-id",
   scores: { composite: 79, level: "Advanced" },
 };
-
 
 describe("verifyProof", () => {
   it("returns valid: true for an untampered proof", async () => {
@@ -118,7 +114,7 @@ describe("verifyProof", () => {
     // Sign payload with one key order; verify with another.
     const { envelope, pubB64 } = await makeSigned(PAYLOAD);
     envelope.public_payload = {
-      scores: { level: "Advanced", composite: 79 },   // reversed inner
+      scores: { level: "Advanced", composite: 79 }, // reversed inner
       proof_id: "test-id",
       v: 1,
     };
