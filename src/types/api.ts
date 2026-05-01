@@ -13,7 +13,12 @@
 
 export type SessionTier = "open" | "verified";
 
+// Mirror of the values written by services.sessions in the backend.
+// `ready` is the post-create state for both Open (no gates) and Verified
+// (gates already passed) — see services/sessions.py:191. `created` is
+// reserved for a granular pre-ready FSM that v1 skipped (review #4).
 export type SessionState =
+  | "ready"
   | "created"
   | "in_progress"
   | "submitted"
@@ -111,18 +116,44 @@ export interface ListModelsOut {
 }
 
 // ---------- Health (rolled-up workbench health) ----------
+//
+// Mirrors the response shape from
+// `poaw.workbench.routers.health.workbench_health`: a flat `checks`
+// dict + lists of blocking_failures / degraded keys. Frontend code
+// previously declared a `{ enabled, verified_enabled, components, ... }`
+// shape that the backend never returned — those fields rendered as
+// `undefined` against a real backend.
+//
+// Each entry in `checks` is either:
+//  - "ok"
+//  - "not_required"           (Verified-only configs while VERIFIED_ENABLED=false)
+//  - "unknown"                (celery heartbeat with no recent ping)
+//  - "error: <reason>"        (a string starting with "error:")
+//  - boolean                  (wb_enabled, wb_verified_enabled)
+//  - migration revision id    (migration_head, migration_current)
+
+export type HealthCheckValue = string | boolean;
+
+export interface WorkbenchHealthChecks {
+  postgres: HealthCheckValue;
+  redis: HealthCheckValue;
+  celery_heartbeat: HealthCheckValue;
+  s3_config: HealthCheckValue;
+  anthropic_config: HealthCheckValue;
+  openai_config: HealthCheckValue;
+  plaid_config: HealthCheckValue;
+  square_config: HealthCheckValue;
+  wb_enabled: HealthCheckValue;
+  wb_verified_enabled: HealthCheckValue;
+  migration_head: HealthCheckValue;
+  migration_current: HealthCheckValue;
+  [key: string]: HealthCheckValue;
+}
 
 export interface WorkbenchHealthOut {
-  status: "ok" | "degraded" | "down";
-  enabled: boolean;
-  verified_enabled: boolean;
-  components: {
-    db: "ok" | "down";
-    redis: "ok" | "down";
-    celery: "ok" | "down";
-    storage: "ok" | "down";
-    llm: "ok" | "down";
-    plaid?: "ok" | "down" | "not_configured";
-  };
-  migration_version: string | null;
+  status: "ok" | "degraded" | "failed";
+  ts: string; // ISO-8601
+  checks: WorkbenchHealthChecks;
+  blocking_failures: string[];
+  degraded: string[];
 }

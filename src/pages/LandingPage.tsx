@@ -76,10 +76,12 @@ export function LandingPage() {
           </p>
         )}
         {health.kind === "ok" && (
-          <p className={health.data.status === "ok" ? "success" : "error"}>
+          <p
+            className={health.data.status === "ok" ? "success" : "error"}
+          >
             Backend: {health.data.status} · Open enabled:{" "}
-            {String(health.data.enabled)} · Verified enabled:{" "}
-            {String(health.data.verified_enabled)}
+            {String(health.data.checks.wb_enabled)} · Verified enabled:{" "}
+            {String(health.data.checks.wb_verified_enabled)}
           </p>
         )}
       </section>
