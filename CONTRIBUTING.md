@@ -35,6 +35,25 @@ npm run lint && npm run typecheck && npm test && npm run build
   verbatim plan §2.1/§2.2 quotes without legal review.
 - Write to `localStorage` outside `src/lib/auth.ts`.
 
+## Cross-repo contract check
+
+Frontend hardcodes a few literal strings that must match
+`poaw.workbench.constants` in the backend (e.g. `CONSENT_VERSION`,
+section ids, error codes). Drift here is silent — last sweep found
+four such bugs before a contract test existed.
+
+Run before opening a PR that touches `src/types/api.ts`,
+`src/lib/api.ts`, `src/pages/ExamStartPage.tsx`, or anything that
+branches on `ApiError.code`:
+
+```bash
+BACKEND_REPO_PATH=/abs/path/to/ProofOfAIWork \
+  node scripts/check-contract.mjs
+```
+
+Skips silently when `BACKEND_REPO_PATH` is unset, so contributors
+without a backend checkout aren't punished.
+
 ## Code style
 
 - TypeScript strict, no `any` without a comment explaining why.
