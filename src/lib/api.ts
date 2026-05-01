@@ -26,8 +26,12 @@ import {
   type SectionId,
 } from "@/types/api";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || window.location.origin;
+function resolveApiBaseUrl(): string {
+  const fromEnv = import.meta.env.VITE_API_BASE_URL;
+  if (typeof fromEnv === "string" && fromEnv.length > 0) return fromEnv;
+  if (typeof window === "undefined") return "";
+  return window.location.origin;
+}
 
 const API_PREFIX = "/api/v1/workbench";
 
@@ -48,7 +52,7 @@ interface RequestOpts {
 
 async function request<T>(opts: RequestOpts): Promise<T> {
   const prefix = opts.prefixOverride ?? API_PREFIX;
-  const url = `${API_BASE_URL}${prefix}${opts.path}`;
+  const url = `${resolveApiBaseUrl()}${prefix}${opts.path}`;
   const headers: Record<string, string> = {
     "content-type": "application/json",
     accept: "application/json",
