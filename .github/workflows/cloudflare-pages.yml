@@ -47,7 +47,10 @@ jobs:
         run: npm test
 
       - name: Build
-        run: npm run build
+        # `build:prod` runs scripts/check-prod-env.mjs first and exits
+        # non-zero if any required VITE_* var is missing, so a misconfig
+        # halts the deploy instead of producing a broken bundle.
+        run: npm run build:prod
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
