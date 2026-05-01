@@ -1,0 +1,7 @@
+# Pre-launch: noindex everywhere. Public proof pages stay reachable to
+# anyone with the URL but are not crawled. Flip to a permissive policy
+# at Week 8 public launch.
+User-agent: *
+Disallow: /
+
+# Allow well-known root checks (security.txt, etc.) once added.

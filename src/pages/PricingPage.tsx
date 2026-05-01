@@ -10,9 +10,11 @@
  */
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 
 
 export function PricingPage() {
+  useDocumentTitle("Pricing");
   return (
     <>
     <main className="pricing-page stack-6">

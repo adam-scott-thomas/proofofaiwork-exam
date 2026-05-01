@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 
 export function NotFoundPage() {
+  useDocumentTitle("Not found");
   return (
     <>
       <main className="not-found stack-3">

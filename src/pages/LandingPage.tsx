@@ -10,9 +10,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { getWorkbenchHealth, ApiError } from "@/lib/api";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 import type { WorkbenchHealthOut } from "@/types/api";
 
 export function LandingPage() {
+  useDocumentTitle("Verifiable AI-collaboration proof");
   const [health, setHealth] = useState<
     | { kind: "loading" }
     | { kind: "ok"; data: WorkbenchHealthOut }

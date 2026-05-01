@@ -16,9 +16,11 @@
  */
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 
 
 export function PrivacyPage() {
+  useDocumentTitle("Privacy & consent");
   return (
     <>
     <main className="legal-page stack-6">

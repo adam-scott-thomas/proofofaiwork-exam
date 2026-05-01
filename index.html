@@ -2,11 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PoAW Exam — measure and prove your AI-collaboration skill." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>PoAW Exam — verifiable AI-collaboration proof</title>
+    <meta
+      name="description"
+      content="A timed assessment that measures how well you collaborate with an AI assistant on real work. Every result becomes a publicly verifiable Ed25519-signed proof you can share with employers."
+    />
+
+    <!-- Crawl gating -->
     <meta name="robots" content="noindex" />
-    <title>PoAW Exam</title>
+
+    <!-- Open Graph (LinkedIn, Slack, Discord, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PoAW Exam" />
+    <meta property="og:title" content="PoAW Exam — verifiable AI-collaboration proof" />
+    <meta
+      property="og:description"
+      content="A timed assessment that measures how well you collaborate with an AI assistant on real work. Every result becomes a publicly verifiable Ed25519-signed proof."
+    />
+    <meta property="og:url" content="https://assessment.proofofaiwork.com/" />
+    <!-- TODO: design + drop /og.png (1200×630 PNG) before public launch.
+         Without it scrapers render title+description only, no preview image. -->
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="PoAW Exam — verifiable AI-collaboration proof" />
+    <meta
+      name="twitter:description"
+      content="A timed assessment of AI-collaboration skill. Results are Ed25519-signed and publicly verifiable."
+    />
+
+    <!-- Theming -->
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="color-scheme" content="light dark" />
   </head>
   <body>
     <div id="root"></div>

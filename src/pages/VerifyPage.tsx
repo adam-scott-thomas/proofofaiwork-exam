@@ -9,6 +9,7 @@
 import { useCallback, useState } from "react";
 
 import { Footer } from "@/components/Footer";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 import {
   reasonLabel,
   verifyProof,
@@ -18,6 +19,7 @@ import {
 
 
 export function VerifyPage() {
+  useDocumentTitle("Verify a proof");
   const [text, setText] = useState("");
   const [outcome, setOutcome] = useState<VerifyOutcome | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);

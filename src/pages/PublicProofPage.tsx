@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 
 import { Footer } from "@/components/Footer";
 import { env } from "@/lib/env";
+import { useDocumentTitle } from "@/lib/useDocumentTitle";
 import {
   reasonLabel,
   verifyProof,
@@ -35,6 +36,8 @@ export function PublicProofPage() {
   const { proofId } = useParams<{ proofId: string }>();
   const [fetchState, setFetchState] = useState<FetchState>({ kind: "loading" });
   const [verify, setVerify] = useState<VerifyOutcome | null>(null);
+
+  useDocumentTitle(deriveProofTitle(fetchState));
 
   useEffect(() => {
     if (!proofId) return;
@@ -219,6 +222,15 @@ function Page({ children }: { children: React.ReactNode }) {
       <Footer />
     </>
   );
+}
+
+
+function deriveProofTitle(state: FetchState): string {
+  if (state.kind !== "ok") return "Proof";
+  const payload = state.envelope.public_payload as unknown as PublicPayload;
+  const who = payload.user?.display_name ?? payload.user?.handle ?? "Proof";
+  const score = payload.scores?.composite;
+  return score != null ? `${who} — ${score}/100` : who;
 }
 
 
