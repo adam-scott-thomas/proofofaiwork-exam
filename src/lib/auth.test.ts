@@ -96,14 +96,15 @@ describe("auth token storage", () => {
     expect(Object.keys(storage)).toEqual([]);
   });
 
-  it("getToken survives unparseable expires_at by clearing", () => {
+  it("getToken fails closed on a malformed expires_at — clears and returns null", () => {
     storage["poaw_workbench_token_v1"] = "garbled-exp-token";
     storage["poaw_workbench_token_exp_v1"] = "not-a-date";
-    // Date.parse(non-ISO) → NaN; NaN <= Date.now() is false. So the
-    // current implementation returns the token. This test pins that
-    // behavior: a malformed exp string is treated as "still valid"
-    // rather than as expired. If we ever flip to fail-closed (clear
-    // and return null), update this test as the behavioral change.
-    expect(getToken()).toBe("garbled-exp-token");
+    // Corrupted localStorage (bad exp string) → treat as "must re-auth",
+    // not as "still valid". Date.parse returns NaN here; without the
+    // explicit Number.isNaN guard, NaN <= Date.now() is false and the
+    // stale token would slip through.
+    expect(getToken()).toBeNull();
+    // Both keys cleared so the bad state doesn't repeat on next call.
+    expect(Object.keys(storage)).toEqual([]);
   });
 });

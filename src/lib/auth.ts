@@ -38,7 +38,12 @@ export function getToken(): string | null {
     const token = localStorage.getItem(STORAGE_KEY);
     const exp = localStorage.getItem(STORAGE_EXP_KEY);
     if (!token || !exp) return null;
-    if (Date.parse(exp) <= Date.now()) {
+    const expMs = Date.parse(exp);
+    // Fail closed on a malformed expiry: NaN <= now is false, which
+    // would otherwise treat a corrupted exp as still-valid. Clear and
+    // force re-auth instead — corrupt localStorage shouldn't extend
+    // a stale token.
+    if (Number.isNaN(expMs) || expMs <= Date.now()) {
       clearToken();
       return null;
     }
