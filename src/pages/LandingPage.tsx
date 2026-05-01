@@ -55,6 +55,8 @@ export function LandingPage() {
         </p>
         <p>
           <Link to="/exam/start">Start the Open exam →</Link>
+          {" · "}
+          <Link to="/pricing">See pricing</Link>
         </p>
       </section>
 

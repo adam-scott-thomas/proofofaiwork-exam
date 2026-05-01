@@ -5,6 +5,7 @@ import { ExamSessionPage } from "@/pages/ExamSessionPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PublicProofPage } from "@/pages/PublicProofPage";
 import { VerifyPage } from "@/pages/VerifyPage";
+import { PricingPage } from "@/pages/PricingPage";
 
 export function App() {
   return (
@@ -16,6 +17,7 @@ export function App() {
         <Route path="/exam" element={<Navigate to="/exam/start" replace />} />
         <Route path="/p/:proofId" element={<PublicProofPage />} />
         <Route path="/verify" element={<VerifyPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

@@ -401,3 +401,129 @@ p {
 .result p {
   margin: var(--space-2) 0;
 }
+
+
+/* ============================== pricing ================================== */
+
+.pricing-page {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.pricing-page > header {
+  margin-bottom: var(--space-6);
+}
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin: var(--space-6) 0;
+}
+
+@media (min-width: 48rem) {
+  .tier-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tier-card {
+  border: 1px solid var(--color-border, #d4d4d8);
+  border-radius: var(--radius-3, 0.75rem);
+  padding: var(--space-5);
+  background: var(--color-surface, #fff);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.tier-card.tier-soon {
+  background: color-mix(in srgb, var(--color-surface, #fff) 92%, var(--color-fg, #000));
+  opacity: 0.94;
+}
+
+.tier-card > header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tier-card h2 {
+  margin: 0;
+  font-size: var(--font-size-4, 1.5rem);
+}
+
+.tier-price {
+  font-size: var(--font-size-6, 2rem);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.tier-tagline {
+  margin: 0;
+  color: var(--color-fg-muted, #525252);
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tier-features li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-bottom: 1px dashed color-mix(in srgb, var(--color-fg, #000) 12%, transparent);
+  padding-bottom: var(--space-2);
+}
+
+.tier-features li:last-child {
+  border-bottom: 0;
+}
+
+.feat-label {
+  color: var(--color-fg-muted, #525252);
+}
+
+.feat-value {
+  font-weight: 600;
+  text-align: right;
+}
+
+.tier-cta {
+  margin: var(--space-3) 0 0;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-accent, #2563eb);
+  color: #fff;
+  border-radius: var(--radius-2, 0.5rem);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cta-button:hover {
+  filter: brightness(1.05);
+}
+
+.cta-disabled {
+  display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  background: color-mix(in srgb, var(--color-fg, #000) 8%, transparent);
+  color: var(--color-fg-muted, #525252);
+  border-radius: var(--radius-2, 0.5rem);
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.tier-footnote {
+  margin: 0;
+}
