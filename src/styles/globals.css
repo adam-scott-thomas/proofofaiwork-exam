@@ -527,3 +527,98 @@ p {
 .tier-footnote {
   margin: 0;
 }
+
+
+/* ============================== legal pages =============================== */
+
+.legal-page {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  line-height: 1.65;
+}
+
+.legal-page h1 {
+  margin-bottom: var(--space-2);
+}
+
+.legal-page h2 {
+  margin-top: var(--space-6);
+  border-top: 1px solid color-mix(in srgb, var(--color-fg, #000) 10%, transparent);
+  padding-top: var(--space-5);
+}
+
+.legal-page h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.legal-toc {
+  background: color-mix(in srgb, var(--color-surface, #fff) 90%, var(--color-fg, #000));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-2, 0.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-fg, #000) 8%, transparent);
+}
+
+.legal-toc ol {
+  margin: 0;
+  padding-left: var(--space-4);
+  columns: 2;
+  column-gap: var(--space-5);
+}
+
+@media (max-width: 40rem) {
+  .legal-toc ol {
+    columns: 1;
+  }
+}
+
+.consent-text {
+  border-left: 3px solid var(--color-accent, #2563eb);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-3) 0;
+  background: color-mix(in srgb, var(--color-accent, #2563eb) 5%, transparent);
+  border-radius: 0 var(--radius-2, 0.5rem) var(--radius-2, 0.5rem) 0;
+}
+
+.consent-text p {
+  margin: var(--space-2) 0;
+}
+
+.consent-text ul {
+  padding-left: var(--space-4);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-3) 0;
+  font-size: 0.94em;
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-fg, #000) 8%, transparent);
+  vertical-align: top;
+}
+
+.data-table th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--color-fg, #000) 4%, transparent);
+}
+
+.data-table em {
+  color: var(--color-fg-muted, #525252);
+  font-style: normal;
+  font-size: 0.92em;
+}
+
+.adam-review {
+  background: color-mix(in srgb, #f59e0b 18%, transparent);
+  border-left: 3px solid #d97706;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 0 var(--radius-2, 0.5rem) var(--radius-2, 0.5rem) 0;
+  margin: var(--space-4) 0;
+}

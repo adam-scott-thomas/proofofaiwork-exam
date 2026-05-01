@@ -6,6 +6,7 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PublicProofPage } from "@/pages/PublicProofPage";
 import { VerifyPage } from "@/pages/VerifyPage";
 import { PricingPage } from "@/pages/PricingPage";
+import { PrivacyPage } from "@/pages/PrivacyPage";
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
         <Route path="/p/:proofId" element={<PublicProofPage />} />
         <Route path="/verify" element={<VerifyPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
