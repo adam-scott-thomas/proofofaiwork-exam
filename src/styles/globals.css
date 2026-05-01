@@ -145,3 +145,259 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   PublicProofPage + VerifyPage styles
+   --------------------------------------------------------------------------- */
+
+.public-proof,
+.verify-page {
+  max-width: var(--max-width);
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-4);
+}
+
+.public-proof h1 {
+  font-size: 2rem;
+  margin: 0 0 var(--space-1) 0;
+}
+
+.public-proof h2 {
+  font-size: 1.5rem;
+  margin: var(--space-2) 0 var(--space-3) 0;
+}
+
+.public-proof h3 {
+  font-size: 1.1rem;
+  margin: var(--space-6) 0 var(--space-2) 0;
+  color: var(--color-fg);
+}
+
+.public-proof section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.public-proof section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.public-proof ul {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-6);
+}
+
+/* badges */
+.badge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+
+.badge-ok {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  color: var(--color-success);
+  border-color: color-mix(in srgb, var(--color-success) 30%, transparent);
+}
+
+.badge-bad {
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+  color: var(--color-danger);
+  border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+
+/* hash strings */
+.hash {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  word-break: break-all;
+  background: color-mix(in srgb, var(--color-fg) 6%, transparent);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* dimension breakdown table */
+.dim-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-3) 0;
+}
+
+.dim-table tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dim-table th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  color: var(--color-fg);
+  width: 40%;
+}
+
+.dim-table td {
+  padding: var(--space-2) var(--space-3);
+  vertical-align: middle;
+}
+
+.dim-table td:first-of-type {
+  width: 80px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dim-table td:last-of-type {
+  width: 100%;
+}
+
+/* horizontal bar */
+.bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar-fill { transition: none; }
+}
+
+/* details / summary */
+.public-proof details {
+  margin: var(--space-3) 0;
+  background: color-mix(in srgb, var(--color-fg) 4%, transparent);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.public-proof summary {
+  cursor: pointer;
+  font-weight: 500;
+  user-select: none;
+}
+
+.public-proof code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--color-fg) 6%, transparent);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   VerifyPage specifics
+   --------------------------------------------------------------------------- */
+
+.verify-page h1 {
+  font-size: 1.75rem;
+  margin: 0 0 var(--space-2) 0;
+}
+
+.proof-input {
+  display: block;
+  width: 100%;
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  resize: vertical;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+.proof-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.key-override {
+  margin: var(--space-3) 0;
+}
+
+.key-override input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  box-sizing: border-box;
+}
+
+.verify-page button {
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.verify-page button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.verify-page button:not(:disabled):hover,
+.verify-page button:not(:disabled):focus {
+  filter: brightness(1.1);
+}
+
+.result {
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid;
+}
+
+.result h2 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: 1.25rem;
+}
+
+.result-ok {
+  background: color-mix(in srgb, var(--color-success) 8%, transparent);
+  color: var(--color-success);
+  border-color: color-mix(in srgb, var(--color-success) 30%, transparent);
+}
+
+.result-bad {
+  background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  color: var(--color-danger);
+  border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+
+.result p {
+  margin: var(--space-2) 0;
+}
