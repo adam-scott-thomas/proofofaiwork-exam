@@ -8,6 +8,12 @@ external contributions. After that, the rules below apply.
 ```bash
 npm install
 cp .env.example .env.local       # edit VITE_API_BASE_URL etc.
+
+# Generate a dev Ed25519 keypair so /verify and /p/:id work locally:
+npm run gen:devkey
+# Paste the printed VITE_PROOF_PUBLIC_KEY into .env.local
+# Paste the printed WB_PROOF_SIGNING_KEY into the backend's .env
+
 npm run dev                      # http://localhost:5173
 
 # Pre-PR sweep — lint + typecheck + vitest + contract drift:

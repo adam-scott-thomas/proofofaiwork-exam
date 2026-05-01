@@ -16,7 +16,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "check:contract": "node scripts/check-contract.mjs",
     "check:env": "node scripts/check-prod-env.mjs",
-    "check:all": "npm run lint && npm run typecheck && npm test && npm run check:contract"
+    "check:all": "npm run lint && npm run typecheck && npm test && npm run check:contract",
+    "gen:devkey": "node scripts/gen-dev-key.mjs"
   },
   "dependencies": {
     "@stablelib/ed25519": "^2.1.0",
