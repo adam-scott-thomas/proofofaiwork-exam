@@ -166,6 +166,7 @@ function ExamStartInner() {
 
       <div className="row">
         <button
+          type="button"
           className="primary"
           disabled={!consentChecked || creating}
           onClick={handleStart}

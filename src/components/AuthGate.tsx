@@ -82,7 +82,7 @@ export function AuthGate({ children }: AuthGateProps) {
           account, then bounced back here.
         </p>
         <div className="row">
-          <button className="primary" onClick={startHandoff}>
+          <button type="button" className="primary" onClick={startHandoff}>
             Continue to sign-in
           </button>
         </div>
@@ -107,7 +107,7 @@ export function AuthGate({ children }: AuthGateProps) {
           style={{ padding: "var(--space-2)", width: "100%", maxWidth: 480 }}
         />
         <div className="row">
-          <button className="primary" onClick={applyDevToken}>
+          <button type="button" className="primary" onClick={applyDevToken}>
             Use this token
           </button>
         </div>
@@ -120,7 +120,10 @@ export function AuthGate({ children }: AuthGateProps) {
       <h1>Sign-in failed</h1>
       <p className="error">{state.message}</p>
       <div className="row">
-        <button onClick={() => setState({ kind: "needs_handoff" })}>
+        <button
+          type="button"
+          onClick={() => setState({ kind: "needs_handoff" })}
+        >
           Try again
         </button>
       </div>
