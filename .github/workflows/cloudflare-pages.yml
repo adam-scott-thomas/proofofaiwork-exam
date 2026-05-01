@@ -24,7 +24,7 @@ jobs:
       VITE_FEATURE_VERIFIED_ENABLED: ${{ vars.VITE_FEATURE_VERIFIED_ENABLED || 'false' }}
       VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v4
         with:
