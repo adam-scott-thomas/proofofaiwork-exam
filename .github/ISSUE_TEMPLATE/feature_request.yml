@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest something for the PoAW Exam frontend.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: this is a paid-product frontend, not a general-purpose tool. Requests that change the candidate's exam experience (timing, scoring, rubric, proctoring rules) belong in the backend repo and the spec docs, not here.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the problem?
+      description: What user need or pain point are you trying to address?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected surface
+      options:
+        - Public proof page (/p/:id)
+        - Standalone verifier (/verify)
+        - Landing / Pricing / Privacy
+        - Candidate exam shell (/exam/*)
+        - Build / CI / repo health
+        - Other
+    validations:
+      required: true

@@ -1,0 +1,65 @@
+name: Bug report
+description: Something on the PoAW Exam frontend isn't working.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing! For **security issues**, do NOT open this — see [SECURITY.md](../SECURITY.md) and email security@proofofaiwork.com instead.
+
+  - type: input
+    id: page
+    attributes:
+      label: Page / route
+      description: e.g. `/p/abc123`, `/verify`, `/pricing`. If unsure, paste the full URL.
+      placeholder: /p/8f3e1a...
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug. Include any error message, badge, or status text.
+      placeholder: I opened a proof URL someone shared and it shows "missing public key" instead of the proof.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open https://assessment.proofofaiwork.com/p/<id>
+        2. Wait for it to load
+        3. ...
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser + OS
+      description: e.g. Chrome 138 on macOS 15.4
+      placeholder: Chrome 138, macOS 15.4
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser console output
+      description: Open DevTools → Console, copy any red/yellow lines. Especially anything starting with `[env]` or `[verify]`.
+      render: text
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I have not pasted any personal data, transcript content, or proof JSON containing my own information into this issue.
+          required: true
