@@ -24,11 +24,16 @@
 
 import { getToken } from "@/lib/auth";
 
-const WS_BASE_URL =
-  import.meta.env.VITE_WS_BASE_URL ||
-  (window.location.protocol === "https:" ? "wss:" : "ws:") +
+function resolveWsBaseUrl(): string {
+  const fromEnv = import.meta.env.VITE_WS_BASE_URL;
+  if (typeof fromEnv === "string" && fromEnv.length > 0) return fromEnv;
+  if (typeof window === "undefined") return "ws://localhost";
+  return (
+    (window.location.protocol === "https:" ? "wss:" : "ws:") +
     "//" +
-    window.location.host;
+    window.location.host
+  );
+}
 
 export type WsState = "connecting" | "authed" | "closed" | "error";
 
@@ -54,10 +59,10 @@ export function connectWorkbenchWs(
     throw new Error("connectWorkbenchWs: no token in localStorage");
   }
 
-  const url = `${WS_BASE_URL}/api/v1/workbench/ws`;
+  const url = `${resolveWsBaseUrl()}/api/v1/workbench/ws`;
   const ws = new WebSocket(url);
   let state: WsState = "connecting";
-  let authTimer: number | null = null;
+  let authTimer: ReturnType<typeof setTimeout> | null = null;
 
   function setState(next: WsState): void {
     state = next;
@@ -74,7 +79,7 @@ export function connectWorkbenchWs(
     ws.send(JSON.stringify(helloFrame));
 
     // If the server doesn't ack within 5s, treat as auth failure.
-    authTimer = window.setTimeout(() => {
+    authTimer = setTimeout(() => {
       if (state === "connecting") {
         ws.close(4401, "hello_ack timeout");
         setState("error");
@@ -99,7 +104,7 @@ export function connectWorkbenchWs(
 
     if (typed.type === "hello_ack") {
       if (authTimer !== null) {
-        window.clearTimeout(authTimer);
+        clearTimeout(authTimer);
         authTimer = null;
       }
       setState("authed");
@@ -123,7 +128,7 @@ export function connectWorkbenchWs(
   });
 
   ws.addEventListener("close", (ev) => {
-    if (authTimer !== null) window.clearTimeout(authTimer);
+    if (authTimer !== null) clearTimeout(authTimer);
     setState("closed");
     handlers.onClose?.(ev.code, ev.reason);
   });
