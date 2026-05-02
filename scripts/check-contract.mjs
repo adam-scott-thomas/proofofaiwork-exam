@@ -70,6 +70,15 @@ const EXPECTED = {
   ERR_IDENTITY_REQUIRED: "identity_required",
   ERR_COOLDOWN_ACTIVE: "cooldown_active",
   ERR_SECTION_TIME_EXCEEDED: "section_time_exceeded",
+
+  // OAuth 2.1 + PKCE — frontend hardcodes client_id, scope, the
+  // grant_type literal "authorization_code", and reads the response
+  // shape via TokenResponse. Drift here means /token starts rejecting
+  // the SPA's requests with invalid_client or invalid_request.
+  OAUTH_CLIENT_ID: "poaw-workbench-spa",
+  OAUTH_SCOPE: "workbench",
+  OAUTH_CODE_TTL_S: 60,
+  OAUTH_TOKEN_TTL_S: 3600,
 };
 
 
@@ -104,13 +113,24 @@ if (!fs.existsSync(constantsPath)) {
 
 const source = fs.readFileSync(constantsPath, "utf8");
 
-// Parse `NAME: Final[str] = "value"` and `NAME: Final[type] = "value"`
-// patterns. Permissive: just want NAME and the first quoted string on the line.
-const re = /^([A-Z_][A-Z0-9_]*)\s*:\s*Final\b[^=]*=\s*"([^"]+)"/gm;
+// Parse `NAME: Final[type] = <literal>` for two literal forms:
+//  - quoted strings:  NAME: Final[str] = "value"
+//  - unquoted ints:   NAME: Final[int] = 60
+// First match wins; subsequent occurrences of the same name are ignored.
+const reStr = /^([A-Z_][A-Z0-9_]*)\s*:\s*Final\b[^=]*=\s*"([^"]+)"/gm;
+const reInt = /^([A-Z_][A-Z0-9_]*)\s*:\s*Final\b[^=]*=\s*(-?\d+)\s*(?:#.*)?$/gm;
+
 const found = {};
-let m;
-while ((m = re.exec(source)) !== null) {
-  found[m[1]] = m[2];
+for (const re of [reStr, reInt]) {
+  let m;
+  while ((m = re.exec(source)) !== null) {
+    if (!(m[1] in found)) {
+      const raw = m[2];
+      // Coerce digit-only strings to numbers so the EXPECTED dict can
+      // declare integer literals naturally.
+      found[m[1]] = /^-?\d+$/.test(raw) ? Number(raw) : raw;
+    }
+  }
 }
 
 

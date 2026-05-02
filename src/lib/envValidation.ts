@@ -73,15 +73,41 @@ export function checkEnv(): EnvIssue[] {
     });
   }
 
-  // VITE_AUTH_ORIGIN — required for the auth handoff. In dev a fallback
-  // is acceptable (AuthGate accepts any string as a dev token).
+  // VITE_AUTH_ORIGIN — OAuth 2.1 + PKCE authorization server origin.
+  // beginPkceLogin() redirects here. AuthGate's dev-fallback path
+  // accepts any-string-as-token in dev so this is only an error in
+  // production builds.
   if (!env.authOrigin && env.isProd) {
     issues.push({
       level: "error",
       variable: "VITE_AUTH_ORIGIN",
       message:
-        "Auth origin is empty. The iframe handoff cannot mint workbench " +
-        "tokens; the candidate flow will be unreachable.",
+        "Auth origin is empty. beginPkceLogin cannot redirect to the " +
+        "authorization server; the candidate flow will be unreachable.",
+    });
+  }
+
+  // VITE_OAUTH_CLIENT_ID — required by /authorize and /token. Backend
+  // rejects unknown client_ids (poaw-workbench-spa is the registered one).
+  if (!env.oauth.clientId && env.isProd) {
+    issues.push({
+      level: "error",
+      variable: "VITE_OAUTH_CLIENT_ID",
+      message:
+        "OAuth client_id is empty. /authorize will be rejected by the " +
+        "backend with invalid_client.",
+    });
+  }
+
+  // VITE_OAUTH_REDIRECT_URI — must match a backend-registered URI exactly.
+  // Empty means PKCE round-trips can't complete.
+  if (!env.oauth.redirectUri && env.isProd) {
+    issues.push({
+      level: "error",
+      variable: "VITE_OAUTH_REDIRECT_URI",
+      message:
+        "OAuth redirect_uri is empty. The /authorize call cannot be " +
+        "constructed and the SPA cannot receive the callback.",
     });
   }
 

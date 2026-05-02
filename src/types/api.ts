@@ -32,6 +32,17 @@ export type SectionId = "diagnose" | "perform" | "repair";
 
 export type SectionState = "not_started" | "in_progress" | "submitted" | "graded" | "expired";
 
+// ---------- OAuth 2.1 + PKCE ----------
+//
+// Mirrors poaw.api.routers.oauth.token's response shape. The SPA never
+// constructs this directly — it's the parsed body of POST /api/v1/oauth/token.
+export interface TokenResponse {
+  access_token: string;
+  token_type: "Bearer";
+  expires_in: number;
+  scope: string;
+}
+
 // ---------- Errors ----------
 
 export interface ApiErrorBody {

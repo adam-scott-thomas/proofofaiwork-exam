@@ -36,7 +36,15 @@ const REQUIRED = [
   },
   {
     name: "VITE_AUTH_ORIGIN",
-    why: "Auth handoff iframe origin. Candidate flow is unreachable without it.",
+    why: "OAuth 2.1 + PKCE authorization server origin. beginPkceLogin redirects here; candidate flow unreachable without it.",
+  },
+  {
+    name: "VITE_OAUTH_CLIENT_ID",
+    why: "OAuth client_id sent to /authorize and /token. Backend rejects unknown clients with invalid_client.",
+  },
+  {
+    name: "VITE_OAUTH_REDIRECT_URI",
+    why: "Where the AS redirects after /authorize. Must match a backend-registered URI exactly.",
   },
 ];
 

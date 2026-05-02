@@ -13,6 +13,14 @@ export const env = {
   // to validate proof signatures offline. Baked at build time; explicitly
   // public per docs/WORKBENCH_SECURITY_PRIVACY_PLAN_v2.
   proofPublicKey: import.meta.env.VITE_PROOF_PUBLIC_KEY ?? "",
+  // OAuth 2.1 + PKCE (Path B). The wrapper page at <authOrigin>/oauth/authorize
+  // forwards to the backend's /api/v1/oauth/authorize after attaching the
+  // user's PoAW Bearer; the redirect URI here points at /auth/callback on
+  // the SPA, which calls completePkceLogin().
+  oauth: {
+    clientId: import.meta.env.VITE_OAUTH_CLIENT_ID ?? "",
+    redirectUri: import.meta.env.VITE_OAUTH_REDIRECT_URI ?? "",
+  },
   features: {
     verifiedEnabled: import.meta.env.VITE_FEATURE_VERIFIED_ENABLED === "true",
   },
