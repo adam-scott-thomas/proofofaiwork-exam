@@ -7,6 +7,7 @@ import { PublicProofPage } from "@/pages/PublicProofPage";
 import { VerifyPage } from "@/pages/VerifyPage";
 import { PricingPage } from "@/pages/PricingPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
+import { AuthCallbackPage } from "@/pages/AuthCallbackPage";
 
 export function App() {
   return (
@@ -20,6 +21,7 @@ export function App() {
         <Route path="/verify" element={<VerifyPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
