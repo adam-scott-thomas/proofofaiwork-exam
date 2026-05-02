@@ -3,15 +3,19 @@
  *
  * Logic:
  *   1. If a non-expired token exists in localStorage → render children.
- *   2. Otherwise → trigger the iframe handoff against VITE_AUTH_ORIGIN.
- *   3. In dev mode (no VITE_AUTH_ORIGIN configured), show a "set dev token"
- *      box so the rest of the UI can be exercised before the real handoff
- *      endpoint exists on the backend.
+ *   2. Otherwise → kick off the OAuth 2.1 + PKCE redirect via
+ *      beginPkceLogin (Path B). The browser navigates away to the
+ *      proofofaiwork.com /oauth/authorize wrapper page; the user
+ *      eventually lands on /auth/callback which calls completePkceLogin
+ *      and routes back here.
+ *   3. In dev mode (VITE_AUTH_ORIGIN unset), show a "paste dev token"
+ *      box so the rest of the UI can be exercised before the OAuth
+ *      flow is wired up locally.
  */
 
 import { useEffect, useState } from "react";
 import { env } from "@/lib/env";
-import { getToken, requestTokenViaIframeHandoff, setDevToken } from "@/lib/auth";
+import { beginPkceLogin, getToken, setDevToken } from "@/lib/auth";
 
 type AuthState =
   | { kind: "checking" }
@@ -43,8 +47,14 @@ export function AuthGate({ children }: AuthGateProps) {
   async function startHandoff() {
     setState({ kind: "checking" });
     try {
-      await requestTokenViaIframeHandoff({ authOrigin: env.authOrigin });
-      setState({ kind: "authed" });
+      // beginPkceLogin navigates away — never resolves. The catch handles
+      // pre-redirect failures (missing config, etc.).
+      await beginPkceLogin({
+        authOrigin: env.authOrigin,
+        clientId: env.oauth.clientId,
+        redirectUri: env.oauth.redirectUri,
+        returnTo: window.location.pathname + window.location.search,
+      });
     } catch (err) {
       setState({
         kind: "error",
