@@ -45,6 +45,17 @@ versions per [SemVer](https://semver.org/) once we cut v0.1.0.
 
 ### Changed
 
+- **Replaced iframe/postMessage auth handoff with OAuth 2.1
+  Authorization Code + PKCE flow.** SPA now redirects to
+  `<VITE_AUTH_ORIGIN>/oauth/authorize` (a wrapper page on the PoAW
+  main app), receives `?code` at `/auth/callback`, exchanges via POST
+  to `/api/v1/oauth/token`, and stores the resulting workbench-scoped
+  Bearer in localStorage. Backend mints opaque DB-backed tokens
+  tagged `scope='workbench'` (Path B — JWT migration deferred).
+  Refresh-token rotation explicitly out of scope; expired tokens
+  prompt re-auth. Required env vars: `VITE_AUTH_ORIGIN`,
+  `VITE_OAUTH_CLIENT_ID`, `VITE_OAUTH_REDIRECT_URI` (all enforced by
+  build-time `check-prod-env.mjs` and boot-time `envValidation`).
 - README rewritten from Week-1 scaffold copy to current state.
 - WS keepalive: transport now auto-replies to server pings with pong
   (echoing `server_ts` → `client_ts`). Was previously passed through
